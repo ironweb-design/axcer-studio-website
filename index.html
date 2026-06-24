@@ -1103,6 +1103,7 @@ function subscribeNewsletter(btn, inputId){
     return;
   }
   input.style.outline = 'none';
+  const hp = document.getElementById(inputId + '-hp');
   const originalText = btn.textContent;
   btn.textContent = '···';
   btn.disabled = true;
