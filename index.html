@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Axcer Studio — Houston</title>
+
+<style>
+:root {
+  --black: #111;
+  --white: #fff;
+  --off: #f6f7f8;
+  --stone: #eef0f2;
+  --border: #dde1e4;
+  --muted: #999;
+  --font-serif: 'Arial Hebrew', 'Arial Hebrew', 'Arial Hebrew';
+  --font-sans: 'Arial Hebrew', 'Arial Hebrew', 'Arial Hebrew';
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+input, textarea, select, button { font-family: inherit; }
+em { font-style: normal; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+html { scroll-behavior: smooth; }
+html, body { height: 100%; }
+body { font-family: var(--font-sans); background: var(--white); color: var(--black); font-weight: 300; font-style: normal; overflow-x: hidden; overflow-y: auto; }
+
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 9999; display: flex; justify-content: space-between; align-items: center; padding: 1.1rem 3rem; background: transparent; border-bottom: none; transition: opacity 0.4s ease; }
+nav.hidden { display: none; }
+.nav-logo { font-family: var(--font-serif); font-size: 0.75rem; font-weight: 300; letter-spacing: 0.28em; text-transform: uppercase; color: #888; cursor: pointer; }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { font-family: var(--font-serif); font-size: 0.65rem; letter-spacing: 0.24em; text-transform: uppercase; color: #888; text-decoration: none; cursor: pointer; transition: color 0.2s; font-weight: 300; }
+.nav-links a:hover { border-bottom: 0.5px solid currentColor; padding-bottom: 1px; }
+.nav-links a.active { border-bottom: 0.5px solid currentColor; padding-bottom: 1px; }
+.nav-cta { font-family: var(--font-serif); font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; padding: 0.5rem 1.2rem; background: var(--black); color: var(--white); border: none; cursor: pointer; transition: background 0.2s; font-weight: 300; }
+.nav-cta:hover { background: #333; }
+
+.page { display: none; padding-top: 58px; min-height: 100vh; height: auto; overflow-y: auto; }
+.page.active { display: block; }
+#page-home { padding-top: 0; background: #111; }
+#page-home footer { border-top: none !important; background: transparent !important; }
+
+
+body.home-active .nav-logo { color: rgba(255,255,255,0.8); }
+body.home-active .nav-links a { color: rgba(255,255,255,0.7); }
+body.home-active .nav-cta { background: rgba(255,255,255,0.15); color: #fff; border: 0.5px solid rgba(255,255,255,0.3); }
+
+body.home-active footer { background: transparent; border-top: none; }
+body.home-active .footer-logo { color: rgba(255,255,255,0.7); }
+body.home-active .footer-links a { color: rgba(255,255,255,0.6); }
+body.home-active .footer-copy { color: rgba(255,255,255,0.35); }
+
+.btn-dark { display: inline-block; padding: 0.75rem 2rem; background: var(--black); color: var(--white); font-family: var(--font-serif); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; border: none; cursor: pointer; text-decoration: none; transition: background 0.2s; font-weight: 300; }
+.btn-dark:hover { background: #333; }
+.eyebrow { font-family: var(--font-sans); font-size: 0.58rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.9rem; }
+
+/* INPUT — original light underline style */
+.form-lbl { display: block; font-family: var(--font-sans); font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem; }
+.form-input { width: 100%; border: none; border-bottom: 0.5px solid var(--border); padding: 0.6rem 0; font-size: 0.82rem; font-family: var(--font-sans); color: #555; background: transparent; outline: none; transition: border-color 0.2s; font-weight: 300; }
+.form-input:focus { border-bottom-color: var(--black); color: #555; }
+.form-select { width: 100%; border: none; border-bottom: 0.5px solid var(--border); padding: 0.6rem 0; font-size: 0.82rem; font-family: var(--font-sans); color: #555; background: transparent; outline: none; appearance: none; cursor: pointer; transition: border-color 0.2s; }
+.form-select:focus { border-bottom-color: var(--black); }
+.form-group { margin-bottom: 1.2rem; }
+.col-title { font-family: var(--font-sans); font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); padding-bottom: 0.8rem; border-bottom: 0.5px solid var(--border); margin-bottom: 1.5rem; }
+
+/* HOME */
+.hero { position: relative; height: calc(100vh); overflow: hidden; touch-action: pan-y; }
+.hero img { width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(0.92); }
+.hero-text { position: absolute; bottom: 0; left: 0; right: 0; padding: 4rem 4rem 6rem; }
+.hero-title { font-family: var(--font-serif); font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 300; line-height: 1.0; color: #fff; margin-bottom: 1rem; }
+.hero-title em { font-style: normal; }
+.hero-sub { font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 1.5rem; font-family: var(--font-sans); }
+.hero-cta { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--font-serif); font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.8); border-bottom: 0.5px solid rgba(255,255,255,0.35); padding-bottom: 2px; cursor: pointer; font-weight: 300; }
+
+/* GALLERY */
+.g-hero { display: grid; grid-template-columns: 3fr 2fr; height: 55vh; overflow: hidden; }
+.g-hero-img { overflow: hidden; }
+.g-hero-img img { width: 100%; height: 55vh; object-fit: cover; display: block; }
+.g-hero-text { padding: 3.5rem; display: flex; flex-direction: column; justify-content: flex-end; background: var(--white); border-left: 0.5px solid var(--border); overflow: hidden; }
+.g-hero-title { font-family: var(--font-serif); font-size: clamp(2.4rem, 3.6vw, 3.5rem); font-weight: 300; font-style: normal; line-height: 1.05; margin-bottom: 0.8rem; }
+.g-hero-title em { font-style: normal; color: #111; }
+.g-hero-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.8; margin-bottom: 1.5rem; max-width: 280px; }
+.gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; background: #fff; }
+.gallery-grid img { width: 100%; height: 280px; object-fit: cover; display: block; cursor: pointer; transition: opacity 0.2s; min-height: 100px; }
+.gallery-grid img:hover { opacity: 0.88; }
+.gallery-grid img.gallery-last { display: none; }
+.acuity-frame { height: 2400px; }
+.gallery-lead { display: block; width: 100%; height: 60vh; object-fit: cover; object-position: center; cursor: pointer; margin: 0 0 3px; transition: opacity 0.2s; }
+.gallery-lead:hover { opacity: 0.92; }
+.gallery-stack { display: block; width: 100%; }
+.lightbox-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 99999; display: none; align-items: center; justify-content: center; padding: 1.5rem; }
+.lightbox-overlay.show { display: flex; }
+.lightbox-overlay img { max-width: 100%; max-height: 90vh; object-fit: contain; display: block; }
+.lightbox-close { position: absolute; top: 1.2rem; right: 1.2rem; background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer; line-height: 1; z-index: 100000; }
+.lightbox-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: 0.5px solid rgba(255,255,255,0.3); color: #fff; width: 44px; height: 44px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 100000; backdrop-filter: blur(3px); }
+.lightbox-prev { left: 1rem; }
+.lightbox-next { right: 1rem; }
+.lightbox-dots { position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%); display: none; gap: 6px; z-index: 100000; }
+@media (max-width: 600px) {
+  .lightbox-arrow-desktop { display: none; }
+  .lightbox-dots { display: flex; }
+}
+
+.c-about { display: grid; grid-template-columns: 1fr 1fr; border-top: 0.5px solid var(--border); }
+.c-about-text { padding: 3rem; border-right: 0.5px solid var(--border); }
+.c-about-title { font-family: var(--font-serif); font-size: 2.4rem; font-weight: 300; line-height: 1.15; margin-bottom: 1rem; }
+.c-about-title em { font-style: normal; color: #111; }
+.c-about-desc { font-family: var(--font-serif);font-size: 0.82rem; line-height: 1.9; color: #555; margin-bottom: 1.2rem; }
+.c-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.5rem; }
+.c-tag { font-size: 0.62rem; letter-spacing: 0.08em; padding: 4px 10px; border: 0.5px solid var(--border); color: #666; font-family: var(--font-sans); }
+
+.reviews-section { padding: 4rem 3rem; border-top: 0.5px solid var(--border); background: var(--off); }
+.reviews-title { font-family: var(--font-serif); font-size: 2rem; font-weight: 300; margin-bottom: 2rem; }
+.reviews-more-link { display: flex; justify-content: space-between; align-items: center; border: 0.5px solid var(--border); padding: 0.9rem 1.3rem; margin-bottom: 2.5rem; text-decoration: none; color: var(--black); font-family: var(--font-sans); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; transition: background 0.15s; max-width: 600px; }
+.reviews-more-link:hover { background: var(--off); }
+.reviews-title em { font-style: normal; color: #111; }
+.reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.review-card { padding: 1.5rem; border: 0.5px solid var(--border); background: var(--white); }
+.review-stars { color: var(--black); font-size: 0.85rem; letter-spacing: 3px; margin-bottom: 0.8rem; }
+.review-text { font-family: var(--font-serif);font-size: 0.8rem; line-height: 1.9; color: #666; font-style: normal; margin-bottom: 1rem; word-wrap: break-word; }
+.review-author { font-family: var(--font-serif);font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: #aaa; }
+.review-date { font-family: var(--font-serif);font-family: var(--font-serif);font-size: 0.62rem; color: #767676; margin-top: 3px; }
+
+.gallery-cta { padding: 4rem 3rem; text-align: center; border-top: 0.5px solid var(--border); }
+.gallery-cta h2 { font-family: var(--font-serif); font-size: 2.4rem; font-weight: 300; margin-bottom: 0.8rem; }
+.gallery-cta h2 em { font-style: normal; color: #111; }
+.gallery-cta p { font-size: 0.82rem; color: var(--muted); margin-bottom: 1.8rem; }
+
+/* BOOK — minimal sessions */
+.bk-header { padding: 3rem 3rem 2rem; border-bottom: 0.5px solid var(--border); max-width: 860px; margin: 0 auto; width: 100%; }
+.bk-title { font-family: var(--font-serif); font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 300; line-height: 1.1; }
+.bk-title em { font-style: normal; color: #111; }
+.bk-sub { font-family: var(--font-serif);font-size: 0.78rem; color: var(--muted); margin-top: 0.4rem; }
+
+.bk-list { padding: 2rem 3rem; max-width: 860px; margin: 0 auto; width: 100%; }
+.bk-col-lbl { font-family: var(--font-sans); font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); padding-bottom: 0.8rem; border-bottom: 0.5px solid var(--border); margin-bottom: 0.8rem; }
+.bk-row { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.2rem; border: 0.5px solid var(--border); margin-bottom: 0.4rem; background: var(--white); transition: border-color 0.15s; }
+.bk-row:hover { border-color: #aaa; }
+.bk-row-name { font-family: 'Arial Hebrew'; font-size: 1rem; font-weight: 300; color: #555; }
+.bk-row-detail { font-size: 0.65rem; color: var(--muted); margin-top: 2px; font-family: var(--font-sans); }
+.bk-row-right { display: flex; align-items: center; gap: 1rem; flex-shrink: 0; }
+.bk-row-price { font-family: 'Arial Hebrew'; font-size: 1.1rem; font-weight: 300; color: #555; }
+.bk-btn { font-family: var(--font-serif); font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; padding: 0.5rem 1rem; background: var(--black); color: var(--white); border: none; cursor: pointer; transition: background 0.2s; font-weight: 300; }
+.bk-btn:hover { background: #333; }
+.bk-discount { font-family: var(--font-sans); font-size: 0.55rem; letter-spacing: 0.08em; text-transform: uppercase; color: #5a8a5a; background: #eef5ee; border: 0.5px solid #c8ddc8; padding: 2px 6px; margin-left: 6px; }
+.bk-spacer { height: 1.5rem; }
+
+/* PAYMENT SECTION */
+.pay-section { display: none; border-top: 3px solid var(--border); }
+.pay-section.show { display: block; }
+.pay-bar { padding: 1.2rem 3rem; background: var(--off); border-bottom: 0.5px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.pay-bar-name { font-family: var(--font-serif); font-size: 1rem; font-weight: 300; color: var(--black); }
+.pay-bar-sub { font-size: 0.68rem; color: var(--muted); margin-top: 2px; font-family: var(--font-sans); }
+.pay-change { font-family: var(--font-sans); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); cursor: pointer; text-decoration: none; }
+.pay-change:hover { color: var(--black); }
+
+.pay-bar { border-bottom: 0.5px solid var(--border); background: var(--off); }
+.pay-bar-inner { max-width: 860px; margin: 0 auto; width: 100%; padding: 1.2rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+.pay-body { display: grid; grid-template-columns: 1fr 1fr; max-width: 860px; margin: 0 auto; width: 100%; }
+.pay-left { padding: 2.5rem 3rem; border-right: 0.5px solid var(--border); }
+.pay-right { padding: 2.5rem 3rem; background: var(--off); }
+
+/* rentals in payment */
+.rental-row { display: flex; justify-content: space-between; align-items: center; padding: 0.9rem 1.1rem; border: 0.5px solid var(--border); margin-bottom: 0.4rem; background: var(--white); cursor: pointer; transition: border-color 0.15s; }
+.rental-row:hover { border-color: #aaa; }
+.rental-row.on { border-color: var(--black); background: var(--off); }
+.rental-left { display: flex; align-items: center; gap: 0.8rem; }
+.rental-left input[type=checkbox] { accent-color: var(--black); cursor: pointer; width: 14px; height: 14px; flex-shrink: 0; }
+.rental-name { font-family: var(--font-serif); font-size: 0.95rem; font-weight: 300; color: var(--black); }
+.rental-sub { font-size: 0.62rem; color: var(--muted); margin-top: 1px; font-family: var(--font-sans); }
+.rental-right { display: flex; align-items: center; gap: 0.8rem; flex-shrink: 0; }
+.rental-price { font-family: var(--font-serif); font-size: 0.95rem; font-weight: 300; color: #666; }
+
+.price-box { background: var(--stone); border: 0.5px solid var(--border); padding: 1.1rem; margin: 1.2rem 0; }
+.price-row { display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--muted); padding: 0.2rem 0; font-family: var(--font-sans); }
+.price-total { display: flex; justify-content: space-between; font-family: var(--font-serif); font-size: 1.1rem; font-weight: 300; color: var(--black); border-top: 0.5px solid var(--border); margin-top: 0.5rem; padding-top: 0.8rem; }
+.submit-btn { width: 100%; padding: 0.9rem; background: var(--black); color: var(--white); border: none; font-family: var(--font-serif); font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; font-weight: 300; }
+.submit-btn:hover { background: #333; }
+.stripe-note { font-family: var(--font-sans); font-size: 0.58rem; color: var(--muted); letter-spacing: 0.08em; margin-top: 0.5rem; text-align: center; }
+
+/* CALENDAR MODAL */
+.cal-body { padding: 1.5rem; }
+.cal-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; }
+.cal-month { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 300; color: var(--black); }
+.cal-arrow { background: none; border: 0.5px solid var(--border); color: #888; font-size: 1rem; cursor: pointer; padding: 0.25rem 0.7rem; transition: border-color 0.2s; }
+.cal-arrow:hover { border-color: var(--black); }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin-bottom: 1rem; }
+.cal-dow { font-family: var(--font-sans); font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: #767676; text-align: center; padding: 0.3rem 0; }
+.cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; cursor: pointer; border-radius: 50%; color: #444; font-family: var(--font-sans); transition: all 0.12s; }
+.cal-day:hover:not(.past):not(.booked) { background: var(--stone); }
+.cal-day.today { border: 0.5px solid var(--black); }
+.cal-day.selected { background: var(--black); color: var(--white); }
+.cal-day.past { color: #ddd; cursor: default; }
+.cal-day.booked { color: #ddd; cursor: default; text-decoration: line-through; }
+.cal-legend { display: flex; gap: 1rem; margin-bottom: 1rem; }
+.cal-legend span { display: flex; align-items: center; gap: 4px; font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-family: var(--font-sans); }
+.ldot { width: 7px; height: 7px; border-radius: 50%; }
+.ldot-av { background: var(--stone); border: 0.5px solid var(--border); }
+.ldot-bk { background: #ddd; }
+.ldot-sel { background: var(--black); }
+.cal-times { border-top: 0.5px solid var(--border); padding-top: 1rem; }
+.cal-times-lbl { font-family: var(--font-sans); font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.7rem; }
+.cal-times-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+.cal-time { font-family: var(--font-sans); font-size: 0.7rem; padding: 0.5rem 0.3rem; border: 0.5px solid var(--border); text-align: center; cursor: pointer; color: #555; transition: all 0.12s; }
+.cal-time:hover:not(.unavail) { border-color: var(--black); color: var(--black); }
+.cal-time.sel-time { background: var(--black); color: var(--white); border-color: var(--black); }
+.cal-time.unavail { color: #ddd; cursor: default; border-color: #f0f0f0; }
+.cal-info { font-size: 0.75rem; color: #555; font-family: var(--font-sans); }
+.cal-confirm-btn { font-family: var(--font-serif); font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; padding: 0.6rem 1.4rem; background: var(--black); color: var(--white); border: none; cursor: pointer; font-weight: 300; }
+.cal-confirm-btn:hover { background: #333; }
+
+/* CONTACT */
+.contact-hero { display: grid; grid-template-columns: 1fr 1fr; }
+.contact-hero-img { overflow: hidden; min-height: 320px; position: relative; }
+.contact-hero-img img { width: 100%; height: 100%; object-fit: cover; display: block; position: absolute; inset: 0; }
+.contact-hero-text { padding: 4rem; background: var(--off); border-left: 0.5px solid var(--border); display: flex; flex-direction: column; justify-content: flex-end; }
+.contact-hero-text h1 { font-family: var(--font-serif); font-size: clamp(2.2rem, 3.5vw, 3.2rem); font-weight: 300; line-height: 1.1; }
+.contact-hero-text h1 em { font-style: normal; color: #111; }
+.contact-hero-text p { font-size: 0.82rem; color: var(--muted); line-height: 1.9; margin-top: 0.8rem; max-width: 300px; }
+.contact-body { display: grid; grid-template-columns: 1fr 1fr; border-top: 0.5px solid var(--border); }
+.contact-info { padding: 3.5rem 3rem; border-right: 0.5px solid var(--border); }
+.contact-form-col { padding: 3.5rem 3rem; }
+.contact-detail { margin-bottom: 2rem; }
+.contact-detail-lbl { font-family: var(--font-sans); font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem; }
+.contact-detail-val { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 300; color: var(--black); }
+.contact-detail p { font-size: 0.78rem; color: #aaa; line-height: 1.8; margin-top: 0.2rem; }
+.contact-map-section { border-top: 0.5px solid var(--border); padding: 2.5rem 3rem; background: var(--off); }
+.contact-map-outer { display: flex; gap: 12px; align-items: stretch; }
+.contact-map-block { display: grid; grid-template-columns: 1fr 240px; border: 0.5px solid var(--border); overflow: hidden; flex: 1; }
+.contact-map-photo { width: 200px; flex-shrink: 0; overflow: hidden; border: 0.5px solid var(--border); }
+.contact-map-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.contact-map { position: relative; height: 280px; overflow: hidden; background: #e8e6e0; }
+.map-road { position: absolute; background: #fff; }
+.map-road.h { height: 12px; left: 0; right: 0; }
+.map-road.v { width: 12px; top: 0; bottom: 0; }
+.map-road.r1 { top:30%; } .map-road.r2 { top:54%; } .map-road.r3 { top:74%; }
+.map-road.c1 { left:18%; } .map-road.c2 { left:42%; } .map-road.c3 { left:66%; }
+.map-block { position: absolute; background: #d4d0c8; border-radius: 2px; }
+.map-pin { position: absolute; top:24%; left:36%; transform:translate(-50%,-100%); display:flex; flex-direction:column; align-items:center; }
+.map-pin-label { background:#fff; border-radius:5px; padding:4px 8px; font-size:10px; font-weight:500; color:#111; white-space:nowrap; margin-bottom:3px; }
+.map-pin-dot { width:12px; height:12px; background:#EA4335; border-radius:50% 50% 50% 0; transform:rotate(-45deg); }
+.map-ctrl { position:absolute; bottom:12px; right:12px; display:flex; flex-direction:column; gap:1px; }
+.map-ctrl-btn { width:26px; height:26px; background:#fff; border:0.5px solid #ddd; display:flex; align-items:center; justify-content:center; font-size:14px; color:#555; cursor:pointer; }
+.map-credit { position:absolute; bottom:6px; left:8px; font-size:9px; color:#666; font-family:var(--font-sans); }
+.map-info-panel { padding:2rem; border-left:0.5px solid var(--border); background:var(--off); display:flex; flex-direction:column; gap:10px; }
+.map-info-name { font-family:var(--font-serif); font-size:1.2rem; font-weight:300; color:var(--black); }
+.map-info-cat { font-size:0.7rem; color:var(--muted); font-family:var(--font-sans); }
+.map-info-rating { display:flex; align-items:center; gap:6px; }
+.map-info-stars { color:var(--black); font-size:0.75rem; letter-spacing:1px; }
+.map-info-num { font-size:0.82rem; font-weight:500; color:var(--black); font-family:var(--font-sans); }
+.map-info-count { font-size:0.72rem; color:var(--muted); font-family:var(--font-sans); }
+.map-divider { height:0.5px; background:var(--border); }
+.map-info-row { display:flex; gap:8px; font-size:0.72rem; color:#555; align-items:flex-start; line-height:1.6; font-family:var(--font-sans); }
+.map-info-muted { color:#666; font-size:0.65rem; display:block; }
+.map-peer-link { font-family:var(--font-sans); font-size:0.62rem; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; text-decoration:none; text-align:center; }
+.map-peer-link:hover { color:var(--black); }
+.map-book-btn { width:100%; padding:0.7rem; background:var(--black); color:var(--white); font-family:var(--font-serif); font-size:0.68rem; letter-spacing:0.2em; text-transform:uppercase; border:none; cursor:pointer; font-weight:300; margin-top:auto; }
+
+/* FOOTER */
+footer { padding:2rem 3rem; border-top: 0.5px solid rgba(255,255,255,0.15); display:flex; justify-content:space-between; align-items:center; background: transparent; }
+.footer-logo { font-family:var(--font-serif); font-size:0.75rem; font-weight:300; letter-spacing:0.2em; text-transform:uppercase; color: var(--muted); }
+.footer-links { display:flex; gap:2rem; }
+.footer-links a { font-family:var(--font-serif); font-size:0.62rem; letter-spacing:0.14em; text-transform:uppercase; color: var(--muted); text-decoration:none; cursor:pointer; font-weight:300; }
+.footer-links a:hover { color:var(--black); }
+.footer-copy { font-family:var(--font-sans); font-size:0.58rem; color:#767676; }
+
+
+
+
+
+/* CONFIRM MODAL */
+.modal-bg { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:300; align-items:center; justify-content:center; }
+.modal-bg.show { display:flex; }
+.modal { background:var(--white); border:0.5px solid var(--border); padding:3rem; max-width:420px; width:90%; text-align:center; }
+.modal-check { font-family:var(--font-serif); font-size:3rem; color:var(--black); margin-bottom:0.8rem; }
+.modal h3 { font-family:var(--font-serif); font-size:1.8rem; font-weight:300; margin-bottom:0.6rem; }
+.modal p { font-size:0.82rem; color:var(--muted); line-height:1.8; font-family:var(--font-sans); }
+
+
+.hero-dot { width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.35);cursor:pointer;transition:background 0.2s; }
+.hero-dot.active-dot { background:rgba(255,255,255,0.9); }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);} }
+.fade-up { animation:fadeUp 0.6s ease forwards; }
+.fade-up-2 { animation:fadeUp 0.6s 0.1s ease forwards;opacity:0; }
+.fade-up-3 { animation:fadeUp 0.6s 0.2s ease forwards;opacity:0; }
+
+/* HAMBURGER MENU */
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; position: fixed; top: 2.1rem; left: 1.5rem; z-index: 10001; }
+.hamburger span { display: block; width: 22px; height: 1.5px; background: #888; transition: transform 0.25s ease, opacity 0.2s ease, background 0.2s ease; }
+.hamburger.open span { background: #888 !important; }
+.hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+.mobile-menu { display: none; position: fixed; inset: 0; background: #fff; z-index: 10000; }
+.mobile-menu.show { display: flex; }
+.mobile-menu.animate-in { opacity: 0; transition: opacity 0.5s ease; }
+.mobile-menu.animate-in.bg-open { opacity: 1; }
+.mobile-menu-inner { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem; width: 100%; }
+.mobile-menu.animate-in .mobile-menu-inner { opacity: 0; transform: translateY(10px); transition: opacity 0.25s ease, transform 0.3s ease; }
+.mobile-menu.animate-in.text-open .mobile-menu-inner { opacity: 1; transform: translateY(0); }
+.mobile-menu a { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 200; letter-spacing: 0.22em; text-transform: uppercase; color: #888; text-decoration: none; cursor: pointer; }
+
+@media(max-width:768px){
+  .acuity-frame { height: 2600px; }
+  nav { padding: 2.6rem 1.5rem 1rem; background: #fff; flex-direction: row-reverse; border-bottom: 0.5px solid var(--border); }
+  .page { padding-top: 78px; }
+  body.home-active nav { background: transparent; border-bottom: none; }
+  .nav-links { display: none; }
+  .nav-cta { display: none; }
+  .hamburger { display: flex; }
+  .hamburger span { background: #888; }
+  .nav-logo { color: #888; }
+  .page { height: auto; overflow-y: visible; min-height: 100vh; display: none; }
+  .page.active { display: block; }
+  #page-home.active { display: block; height: 100svh; }
+  #page-home { padding-top: 0; background: #fff; }
+  .hero { height: 100svh !important; min-height: 100svh !important; margin: 0; padding: 0; position: relative; overflow: hidden; }
+  #heroSlides, #heroSlides > div { height: 100% !important; }
+  .hero-text { display: none; }
+  .hero-mobile-booknow { display: block !important; }
+  #page-home footer { display: none; }
+  body.home-active { background: #fff; }
+  body.home-active .hamburger span { background: #fff; }
+  body.home-active .nav-logo { color: #fff; }
+  .g-hero { grid-template-columns: 1fr; height: auto; }
+  .g-hero-img img { height: 55vw; }
+  .gallery-grid { grid-template-columns: 1fr; }
+  .gallery-grid img { height: 70vw; }
+  .gallery-grid img.gallery-last { display: block; }
+  .gallery-lead { height: 70vw; }
+  .g-hero-text,.contact-hero-text,.contact-form-col,.contact-info { padding: 2rem 1.5rem; }
+  #page-about > div:first-child { padding: 2.5rem 1.5rem !important; }
+  .contact-hero { grid-template-columns: 1fr; }
+  .contact-body { grid-template-columns: 1fr; }
+  .pay-body { grid-template-columns: 1fr; }
+  .reviews-section,.gallery-cta { padding: 3rem 1.5rem; }
+  .reviews-grid { grid-template-columns: 1fr; }
+  .bk-header,.bk-list { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .pay-left,.pay-right { padding: 2rem 1.5rem; }
+  .pay-left { border-right: none; border-bottom: 0.5px solid var(--border); }
+  .contact-info { border-right: none; border-bottom: 0.5px solid var(--border); }
+  .map-info-panel { border-left: none; border-top: 0.5px solid var(--border); }
+  footer { flex-direction: column; gap: 1rem; text-align: center; padding: 1.5rem; }
+  .contact-map-section { grid-template-columns: 1fr; }
+}
+
+</style>
+</head>
+<body class="home-active">
+
+<nav>
+  <span class="nav-logo" role="button" tabindex="0" aria-label="Go to home page" onclick="showPage('home')">Axcer Studio</span>
+  <ul class="nav-links">
+    <li><a id="nav-home" href="#home" onclick="showPage('home');return false;">Home</a></li>
+    <li><a id="nav-gallery" href="#gallery" onclick="showPage('gallery');return false;">Gallery</a></li>
+    <li><a id="nav-book" href="#book" onclick="showPage('book');return false;">Book</a></li>
+    <li><a id="nav-contact" href="#contact" onclick="showPage('contact');return false;">Contact</a></li>
+    <li><a id="nav-about" href="#about" onclick="showPage('about');return false;">About</a></li>
+    <li><a id="nav-policy" href="#policy" onclick="showPage('policy');return false;">Policy</a></li>
+  </ul>
+  <button class="nav-cta" onclick="showPage('book')">Book Now</button>
+</nav>
+
+<button class="hamburger" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Open menu">
+  <span></span><span></span><span></span>
+</button>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-inner" id="mobileMenuInner">
+    <a href="#home" onclick="return navFromMenu('home');">Home</a>
+    <a href="#gallery" onclick="return navFromMenu('gallery');">Gallery</a>
+    <a href="#book" onclick="return navFromMenu('book');">Book</a>
+    <a href="#contact" onclick="return navFromMenu('contact');">Contact</a>
+    <a href="#about" onclick="return navFromMenu('about');">About</a>
+    <a href="#policy" onclick="return navFromMenu('policy');">Policy</a>
+    <a href="https://www.instagram.com/axcer.studio" target="_blank" rel="noopener" onclick="leaveForInstagram();return false;" aria-label="Axcer Studio on Instagram" style="display:flex;align-items:center;justify-content:center;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5">
+        <rect x="2" y="2" width="20" height="20" rx="5"></rect>
+        <circle cx="12" cy="12" r="4.5"></circle>
+        <circle cx="17.2" cy="6.8" r="1.1" fill="#888" stroke="none"></circle>
+      </svg>
+    </a>
+  </div>
+</div>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="hero" id="heroSlider" style="position:relative;overflow:hidden;">
+    <div id="heroSlides" style="display:flex;height:100%;width:300%;transition:transform 0.7s ease;">
+      <div class="hero-slide hero-slide-desktop" style="width:33.333%;height:100%;position:relative;flex-shrink:0;">
+        <img src="mobileimage2.JPG" alt="Axcer Studio photography space with brick wall and large window" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.92);" onerror="this.style.background='#333'">
+      </div>
+      <div class="hero-slide hero-slide-desktop" style="width:33.333%;height:100%;position:relative;flex-shrink:0;">
+        <img src="38D1A3AD-FF06-426A-8B02-6327A343BE6E.PNG" alt="Axcer Studio interior with seating area and natural light" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.92);" onerror="this.style.background='#444'">
+      </div>
+      <div class="hero-slide hero-slide-desktop" style="width:33.333%;height:100%;position:relative;flex-shrink:0;">
+        <img src="8AB1518F-FD07-45F8-B3C7-FA698D02B5B2.PNG" alt="Axcer Studio open loft space with high ceilings" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.92);" onerror="this.style.background='#555'">
+      </div>
+      <div class="hero-slide hero-slide-mobile" style="width:33.333%;height:100%;position:relative;flex-shrink:0;">
+        <img src="mobileimage1.jpg" alt="Axcer Studio seating area with mirror and lounge chair" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.92);" onerror="this.style.background='#333'">
+      </div>
+      <div class="hero-slide hero-slide-mobile" style="width:33.333%;height:100%;position:relative;flex-shrink:0;">
+        <img src="mobileimage2.JPG" alt="Axcer Studio photography space with brick wall and large window" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.92);" onerror="this.style.background='#444'">
+      </div>
+      <div class="hero-slide hero-slide-mobile" style="width:33.333%;height:100%;position:relative;flex-shrink:0;">
+        <img src="mobileimage4.jpg" alt="Sunlight casting window shadows across studio walls" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.92);" onerror="this.style.background='#555'">
+      </div>
+      <div class="hero-slide hero-slide-mobile" style="width:33.333%;height:100%;position:relative;flex-shrink:0;">
+        <img src="mobileimage3.jpg" alt="Axcer Studio open loft space with high ceilings" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.92);" onerror="this.style.background='#666'">
+      </div>
+    </div>
+    <!-- Dots -->
+    <div style="position:absolute;bottom:4.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:1.2rem;">
+      <div class="hero-mobile-booknow" role="button" tabindex="0" aria-label="Book now" onclick="showPage('book')" style="display:none;font-family:var(--font-serif);font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:#fff;cursor:pointer;background:rgba(255,255,255,0.12);border:0.5px solid rgba(255,255,255,0.35);padding:0.55rem 1.4rem;backdrop-filter:blur(3px);">Book now</div>
+      <div class="hero-dots-wrap" style="display:flex;gap:6px;">
+        <div class="hero-dot active-dot hero-dot-desktop" role="button" tabindex="0" aria-label="Go to slide 1" onclick="goToSlide(0)"></div>
+        <div class="hero-dot hero-dot-desktop" role="button" tabindex="0" aria-label="Go to slide 2" onclick="goToSlide(1)"></div>
+        <div class="hero-dot hero-dot-desktop" role="button" tabindex="0" aria-label="Go to slide 3" onclick="goToSlide(2)"></div>
+        <div class="hero-dot hero-dot-mobile active-dot" role="button" tabindex="0" aria-label="Go to slide 1" onclick="goToSlide(3)"></div>
+        <div class="hero-dot hero-dot-mobile" role="button" tabindex="0" aria-label="Go to slide 2" onclick="goToSlide(4)"></div>
+        <div class="hero-dot hero-dot-mobile" role="button" tabindex="0" aria-label="Go to slide 3" onclick="goToSlide(5)"></div>
+        <div class="hero-dot hero-dot-mobile" role="button" tabindex="0" aria-label="Go to slide 4" onclick="goToSlide(6)"></div>
+      </div>
+    </div>
+    <div class="hero-text">
+      <p class="hero-sub fade-up">East Downtown Houston · Est. 1920s</p>
+      <h1 class="hero-title fade-up-2">White loft.<br>Natural brick.<br><em>Your vision.</em></h1>
+      <div class="hero-cta fade-up-3" role="button" tabindex="0" aria-label="Book now" onclick="showPage('book')">Book now &nbsp;→</div>
+    </div>
+  </div>
+  <footer style="position:absolute;bottom:0;left:0;right:0;background:transparent;border-top:none;justify-content:center;">
+  <span class="home-book-now" onclick="showPage('book')" style="display:none;">Book now →</span>
+</footer>
+</div>
+<!-- GALLERY -->
+<div class="page" id="page-gallery">
+  <div style="padding:1.4rem 2rem 1rem;border-bottom:0.5px solid var(--border);min-height:13vh;display:flex;flex-direction:column;justify-content:flex-end;">
+    <p class="eyebrow" style="margin-bottom:0.5rem;">A Look Inside</p>
+    <h1 class="g-hero-title" style="margin-bottom:0;">The Space</h1>
+  </div>
+
+  <div class="gallery-stack" id="galleryStack">
+    <img src="8AB1518F-FD07-45F8-B3C7-FA698D02B5B2.PNG" alt="Axcer Studio open loft space with high ceilings" class="gallery-lead" onerror="this.style.background='#dde1e4'" onclick="openLightbox(0)">
+    <div class="gallery-grid">
+      <img src="mobileimage2.JPG" alt="Axcer Studio photography space with brick wall and large window" onerror="this.style.background='#dde1e4'" onclick="openLightbox(1)">
+      <img src="6B970578-F235-4641-80F6-F80AA977569B.PNG" alt="Axcer Studio seating area with leather sofa and rug" onerror="this.style.background='#e0e0e0'" onclick="openLightbox(2)">
+      <img src="E5B0C102-2349-4A03-AE8F-CF8376389ED4.JPG" alt="Wide view of Axcer Studio with white cyc wall, lighting setup, and lounge seating" onerror="this.style.background='#dadada'" onclick="openLightbox(3)">
+      <img src="38D1A3AD-FF06-426A-8B02-6327A343BE6E.PNG" alt="Axcer Studio interior with seating area and natural light" onerror="this.style.background='#dcdcdc'" onclick="openLightbox(4)">
+      <img src="57A370EC-5860-483C-B008-93CD6674F511.PNG" alt="Corner of Axcer Studio with chair and side table near window" onerror="this.style.background='#d4d4d4'" onclick="openLightbox(5)">
+      <img src="70E2BF88-2261-46A1-8F55-2080E0EEFCD3.JPG" alt="Glass table and decor in Axcer Studio" onerror="this.style.background='#e0e0e0'" onclick="openLightbox(6)">
+      <img src="76075E32-E15D-4ABB-91E6-300288EEEE87.PNG" alt="Wide view of Axcer Studio with lighting equipment set up" onerror="this.style.background='#d8d8d8'" onclick="openLightbox(7)">
+      <img src="860460D8-33AF-41A4-BF54-273615289348.PNG" alt="Axcer Studio cyc wall with studio lighting setup" onerror="this.style.background='#dcdcdc'" onclick="openLightbox(8)">
+      <img src="B67E7C3C-5563-44C6-8856-76F941A092B8.JPG" class="gallery-last" alt="Seating and side tables along the wall at Axcer Studio" onerror="this.style.background='#d4d4d4'" onclick="openLightbox(9)">
+    </div>
+  </div>
+
+  <div class="gallery-cta">
+    <p class="eyebrow">Ready to shoot?</p>
+    <h2>Book the Studio</h2>
+    <p>Starting at $70/hr · 8% off for 4+ hour bookings</p><br>
+    <button class="btn-dark" onclick="showPage('book')">Reserve Your Date</button>
+  </div>
+
+  <div style="border-top:0.5px solid var(--border);padding:1.2rem 3rem;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--off);gap:0.6rem;text-align:center;">
+    <p style="font-family:var(--font-sans);font-size:0.58rem;letter-spacing:0.24em;text-transform:uppercase;color:var(--muted);">Join for updates — New availability, studio news and exclusive offers</p>
+    <div style="display:flex;gap:0;border:0.5px solid var(--border);">
+      <label for="newsletter-email-1" class="sr-only">Email address</label>
+      <input type="email" id="newsletter-email-1" placeholder="your@email.com" style="border:none;padding:0.55rem 0.9rem;font-size:0.75rem;font-family:var(--font-sans);color:#555;background:#fff;outline:none;width:220px;">
+      <button onclick="subscribeNewsletter(this,'newsletter-email-1')" style="padding:0.55rem 1rem;background:var(--black);color:#fff;font-family:var(--font-serif);font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;border:none;cursor:pointer;white-space:nowrap;">Subscribe</button>
+    </div>
+  </div>
+  <footer>
+    <span class="footer-logo">Axcer Studio</span>
+    <div class="footer-links">
+      <a href="#home" onclick="showPage('home');return false;">Home</a><a href="#book" onclick="showPage('book');return false;">Book</a><a href="#contact" onclick="showPage('contact');return false;">Contact</a>
+    </div>
+    <span class="footer-copy">© 2025 Axcer Studio · Downtown Houston, TX</span>
+  </footer>
+</div>
+
+<!-- BOOK -->
+<div class="page" id="page-book">
+  <div class="bk-header">
+    <p class="eyebrow">Reservations</p>
+    <h1 class="bk-title">Book Now</h1>
+    <p class="bk-sub">Select a session or rental · rentals also available after booking a session · 8% off from 4 hrs</p>
+    <p style="font-family:var(--font-sans);font-size:0.72rem;color:#666;margin-top:0.6rem;padding:0.6rem 0.9rem;border:0.5px solid var(--border);background:var(--off);display:inline-block;letter-spacing:0.04em;">Maximum capacity <strong style="color:var(--black);font-weight:500;">8 people</strong> per session</p>
+  </div>
+
+  <div class="bk-list">
+    <p class="bk-col-lbl">Sessions</p>
+    <div class="bk-row"><div><div class="bk-row-name"><span style="font-family:'Arial Hebrew';font-weight:300;">1 hour session</div><div class="bk-row-detail">1 hr @ $70.00</div></div><div class="bk-row-right"><div class="bk-row-price" style="font-family:'Arial Hebrew';font-weight:300;">$70</div><button class="bk-btn" onclick="openCal('1 hour session','$70.00',70,1)">Book</button></div></div>
+    <div class="bk-row"><div><div class="bk-row-name"><span style="font-family:'Arial Hebrew';font-weight:300;">1.5 hour session</div><div class="bk-row-detail">1.5 hrs @ $70.00 / hr</div></div><div class="bk-row-right"><div class="bk-row-price" style="font-family:'Arial Hebrew';font-weight:300;">$105</div><button class="bk-btn" onclick="openCal('1.5 hour session','$105.00',105,1.5)">Book</button></div></div>
+    <div class="bk-row"><div><div class="bk-row-name"><span style="font-family:'Arial Hebrew';font-weight:300;">2 hour session</div><div class="bk-row-detail">2 hrs @ $70.00 / hr</div></div><div class="bk-row-right"><div class="bk-row-price" style="font-family:'Arial Hebrew';font-weight:300;">$140</div><button class="bk-btn" onclick="openCal('2 hour session','$140.00',140,2)">Book</button></div></div>
+    <div class="bk-row"><div><div class="bk-row-name"><span style="font-family:'Arial Hebrew';font-weight:300;">2.5 hour session</div><div class="bk-row-detail">2.5 hrs @ $70.00 / hr</div></div><div class="bk-row-right"><div class="bk-row-price" style="font-family:'Arial Hebrew';font-weight:300;">$175</div><button class="bk-btn" onclick="openCal('2.5 hour session','$175.00',175,2.5)">Book</button></div></div>
+    <div class="bk-row"><div><div class="bk-row-name"><span style="font-family:'Arial Hebrew';font-weight:300;">3 hour session</div><div class="bk-row-detail">3 hrs @ $70.00 / hr</div></div><div class="bk-row-right"><div class="bk-row-price" style="font-family:'Arial Hebrew';font-weight:300;">$210</div><button class="bk-btn" onclick="openCal('3 hour session','$210.00',210,3)">Book</button></div></div>
+    <div class="bk-row"><div><div class="bk-row-name"><span style="font-family:'Arial Hebrew';font-weight:300;">3.5 hour session</div><div class="bk-row-detail">3.5 hrs @ $70.00 / hr</div></div><div class="bk-row-right"><div class="bk-row-price" style="font-family:'Arial Hebrew';font-weight:300;">$245</div><button class="bk-btn" onclick="openCal('3.5 hour session','$245.00',245,3.5)">Book</button></div></div>
+    <div class="bk-row"><div><div class="bk-row-name"><span style="font-family:'Arial Hebrew';font-weight:300;">4 hour session <span class="bk-discount">8% off</span></div><div class="bk-row-detail">4 hrs @ $64.40 / hr · saves $22.40</div></div><div class="bk-row-right"><div class="bk-row-price" style="font-family:'Arial Hebrew';font-weight:300;">$257.60</div><button class="bk-btn" onclick="openCal('4 hour session','$257.60',257.60,4)">Book</button></div></div>
+    <div class="bk-row"><div><div class="bk-row-name"><span style="font-family:'Arial Hebrew';font-weight:300;">4.5 hour session <span class="bk-discount">8% off</span></div><div class="bk-row-detail">4.5 hrs @ $64.40 / hr · saves $25.20</div></div><div class="bk-row-right"><div class="bk-row-price" style="font-family:'Arial Hebrew';font-weight:300;">$289.80</div><button class="bk-btn" onclick="openCal('4.5 hour session','$289.80',289.80,4.5)">Book</button></div></div>
+    <div class="bk-row"><div><div class="bk-row-name"><span style="font-family:'Arial Hebrew';font-weight:300;">5 hour session <span class="bk-discount">8% off</span></div><div class="bk-row-detail">5 hrs @ $64.40 / hr · saves $28.00</div></div><div class="bk-row-right"><div class="bk-row-price" style="font-family:'Arial Hebrew';font-weight:300;">$322</div><button class="bk-btn" onclick="openCal('5 hour session','$322.00',322,5)">Book</button></div></div>
+    <div class="bk-row"><div><div class="bk-row-name"><span style="font-family:'Arial Hebrew';font-weight:300;">5.5 hour session <span class="bk-discount">8% off</span></div><div class="bk-row-detail">5.5 hrs @ $64.40 / hr · saves $30.80</div></div><div class="bk-row-right"><div class="bk-row-price" style="font-family:'Arial Hebrew';font-weight:300;">$354.20</div><button class="bk-btn" onclick="openCal('5.5 hour session','$354.20',354.20,5.5)">Book</button></div></div>
+    <div class="bk-row"><div><div class="bk-row-name"><span style="font-family:'Arial Hebrew';font-weight:300;">6 hour session <span class="bk-discount">8% off</span></div><div class="bk-row-detail">6 hrs @ $64.40 / hr · saves $33.60</div></div><div class="bk-row-right"><div class="bk-row-price" style="font-family:'Arial Hebrew';font-weight:300;">$386.40</div><button class="bk-btn" onclick="openCal('6 hour session','$386.40',386.40,6)">Book</button></div></div>
+
+  </div>
+
+  <div style="border-top:0.5px solid var(--border);padding:1.2rem 3rem;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--off);gap:0.6rem;text-align:center;">
+    <p style="font-family:var(--font-sans);font-size:0.58rem;letter-spacing:0.24em;text-transform:uppercase;color:var(--muted);">Join for updates — New availability, studio news and exclusive offers</p>
+    <div style="display:flex;gap:0;border:0.5px solid var(--border);">
+      <label for="newsletter-email-2" class="sr-only">Email address</label>
+      <input type="email" id="newsletter-email-2" placeholder="your@email.com" style="border:none;padding:0.55rem 0.9rem;font-size:0.75rem;font-family:var(--font-sans);color:#555;background:#fff;outline:none;width:220px;">
+      <button onclick="subscribeNewsletter(this,'newsletter-email-2')" style="padding:0.55rem 1rem;background:var(--black);color:#fff;font-family:var(--font-serif);font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;border:none;cursor:pointer;white-space:nowrap;">Subscribe</button>
+    </div>
+  </div>
+  <footer>
+    <span class="footer-logo">Axcer Studio</span>
+    <div class="footer-links">
+      <a href="#home" onclick="showPage('home');return false;">Home</a><a href="#gallery" onclick="showPage('gallery');return false;">Gallery</a><a href="#contact" onclick="showPage('contact');return false;">Contact</a>
+    </div>
+    <span class="footer-copy">© 2025 Axcer Studio · Downtown Houston, TX</span>
+  </footer>
+</div>
+
+<!-- BOOKING CONFIRMED (real page, replaces the whole booking page on success) -->
+<div class="page" id="page-confirmed">
+  <div style="text-align:center;padding:7rem 2rem;">
+    <div style="width:48px;height:48px;border-radius:50%;border:1.5px solid var(--black);display:flex;align-items:center;justify-content:center;margin:0 auto 1.75rem;font-size:22px;">✓</div>
+    <p class="eyebrow">Booking confirmed</p>
+    <h1 style="font-family:var(--font-serif);font-weight:300;font-size:2rem;margin:0.6rem 0 1rem;">You're all set</h1>
+    <p style="font-family:var(--font-sans);font-size:0.85rem;line-height:1.7;color:#555;max-width:380px;margin:0 auto 2rem;">Your payment was successful and your session is booked. A confirmation email with your details is on its way to your inbox.</p>
+    <a href="#home" onclick="showPage('home');return false;" class="btn-dark" style="display:inline-block;text-decoration:none;">Back to Home</a>
+  </div>
+</div>
+
+<!-- SCHEDULE — full-page Acuity scheduler, shown when a session is selected -->
+<div class="page" id="page-schedule">
+  <div style="border-bottom:0.5px solid var(--border);padding:1.1rem 1.5rem;display:flex;align-items:center;gap:0.9rem;background:var(--white);">
+    <button onclick="showPage('book')" aria-label="Back to sessions" style="background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;color:var(--muted);">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <div>
+      <div style="font-family:var(--font-serif);font-size:1rem;font-weight:300;color:var(--black);" id="schedTitle">Session</div>
+      <div style="font-family:var(--font-sans);font-size:0.65rem;color:var(--muted);margin-top:2px;" id="schedSub">Select date &amp; time</div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:center;background:var(--white);">
+    <div style="position:relative;width:100%;max-width:600px;">
+      <iframe id="acuityFrame" class="acuity-frame" src="" title="Schedule appointment" width="100%" height="2000" frameborder="0" scrolling="no" style="border:none;display:block;"></iframe>
+      <div id="acuityLoadingOverlay" style="position:absolute;inset:0;background:var(--white);display:flex;align-items:flex-start;justify-content:center;padding-top:5rem;">
+        <div style="font-family:var(--font-sans);font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">Loading calendar…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="page" id="page-contact">
+  <div style="padding:4rem 3rem 2rem;border-bottom:0.5px solid var(--border);">
+    <p class="eyebrow">Get in Touch</p>
+    <h1 style="font-family:var(--font-serif);font-size:clamp(3rem,6vw,5rem);font-weight:300;line-height:1.0;margin-bottom:1rem;">Let's chat.</h1>
+    <p style="font-size:0.9rem;color:var(--muted);line-height:1.9;max-width:480px;">Got questions? Need something specific? Let us know by sending us a note. We typically answer within a day.</p>
+  </div>
+  <div class="contact-body">
+    <div class="contact-info">
+      <div class="contact-detail"><div class="contact-detail-lbl">Location</div><div class="contact-detail-val">East Downtown Houston</div><p>Near Shell &amp; Daikin Park Stadium.<br>4th floor · spiral staircase access only.</p></div>
+      <div class="contact-detail"><div class="contact-detail-lbl">Email</div><div class="contact-detail-val"><a href="mailto:contact@axcerstudio.com" style="color:inherit;text-decoration:none;">contact@axcerstudio.com</a></div></div>
+      <div class="contact-detail"><div class="contact-detail-lbl">Hours</div><div class="contact-detail-val">By Appointment</div><p style="font-size:0.85rem;">8 AM – 11 PM daily.<br>Extended hours available for events.</p></div>
+      <div class="contact-detail"><div class="contact-detail-lbl">Photographer Referrals</div><div class="contact-detail-val">Available on Request</div><p>Axcer knows great local talent in Houston and also shoots himself. Just ask.</p></div>
+      <!-- MINI MAP inside left column -->
+      <div style="margin-top:1.5rem;border:0.5px solid var(--border);overflow:hidden;">
+        <div style="display:grid;grid-template-columns:1fr 160px;height:180px;">
+          <div style="height:180px;overflow:hidden;position:relative;background:var(--off);">
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-sans);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);pointer-events:none;">Loading map…</div>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3463.9775301878635!2d-95.35620392451045!3d29.74936347507344!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8640bf1f93be5695%3A0x904e3540e21911b0!2s2323%20Lamar%20St%2C%20Houston%2C%20TX%2077003!5e0!3m2!1sen!2sus!4v1781026479195!5m2!1sen!2sus" width="100%" height="180" style="border:0;display:block;pointer-events:none;position:relative;" loading="eager" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          <div style="padding:1rem;border-left:0.5px solid var(--border);background:var(--off);display:flex;flex-direction:column;gap:6px;">
+            <div style="font-family:var(--font-serif);font-size:0.9rem;font-weight:300;color:var(--black);">Axcer Studio</div>
+            <div style="font-size:0.65rem;color:var(--muted);">Photography studio</div>
+            <div style="display:flex;align-items:center;gap:4px;">
+              <span style="color:var(--black);font-size:0.7rem;">★★★★★</span>
+              <span style="font-size:0.75rem;font-weight:500;color:var(--black);">4.9</span>
+              <span style="font-size:0.65rem;color:var(--muted);">(40)</span>
+            </div>
+            <div style="height:0.5px;background:var(--border);"></div>
+            <div style="font-size:0.65rem;color:#555;line-height:1.5;">📍 East Downtown<br><span style="color:#666;font-size:0.6rem;">Address after booking</span></div>
+            <div style="font-size:0.65rem;color:#555;">8 AM – 11 PM</div>
+            <div style="font-size:0.65rem;color:#555;">💲 From $70/hr</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form-col">
+      <p class="col-title">Send a Message</p>
+      <div class="form-group"><label class="form-lbl" for="contactName">Name</label><input type="text" id="contactName" class="form-input" placeholder="Your name"></div>
+      <div class="form-group"><label class="form-lbl" for="contactEmail">Email</label><input type="email" id="contactEmail" class="form-input" placeholder="your@email.com"></div>
+      <div class="form-group"><label class="form-lbl" for="contactSubject">Subject</label><select class="form-select" id="contactSubject"><option>Booking Inquiry</option><option>Photographer Referral</option><option>Event Rental</option><option>General Question</option></select></div>
+      <div class="form-group"><label class="form-lbl" for="contactMessage">Message</label><textarea id="contactMessage" class="form-input" rows="5" placeholder="Tell us about your project..." style="resize:none"></textarea></div>
+      <button class="btn-dark" onclick="submitContactForm(this)" style="width:100%">Send Message</button>
+    </div>
+  </div>
+  <div style="border-top:0.5px solid var(--border);padding:1.2rem 3rem;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--off);gap:0.6rem;text-align:center;">
+    <p style="font-family:var(--font-sans);font-size:0.58rem;letter-spacing:0.24em;text-transform:uppercase;color:var(--muted);">Join for updates — New availability, studio news and exclusive offers</p>
+    <div style="display:flex;gap:0;border:0.5px solid var(--border);">
+      <label for="newsletter-email-3" class="sr-only">Email address</label>
+      <input type="email" id="newsletter-email-3" placeholder="your@email.com" style="border:none;padding:0.55rem 0.9rem;font-size:0.75rem;font-family:var(--font-sans);color:#555;background:#fff;outline:none;width:220px;">
+      <button onclick="subscribeNewsletter(this,'newsletter-email-3')" style="padding:0.55rem 1rem;background:var(--black);color:#fff;font-family:var(--font-serif);font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;border:none;cursor:pointer;white-space:nowrap;">Subscribe</button>
+    </div>
+  </div>
+  <footer>
+    <span class="footer-logo">Axcer Studio</span>
+    <div class="footer-links"><a href="#home" onclick="showPage('home');return false;">Home</a><a href="#gallery" onclick="showPage('gallery');return false;">Gallery</a><a href="#book" onclick="showPage('book');return false;">Book</a></div>
+    <span class="footer-copy">© 2025 Axcer Studio · Downtown Houston, TX</span>
+  </footer>
+</div>
+
+
+<!-- POLICY PAGE -->
+<div class="page" id="page-policy">
+  <div style="padding:5rem 3rem 3rem;max-width:720px;margin:0 auto;">
+    <p class="eyebrow">Legal</p>
+    <h1 style="font-family:var(--font-serif);font-size:clamp(2rem,3.5vw,3rem);font-weight:300;margin-bottom:2rem;">Axcer Studio</h1>
+    <div style="font-family:var(--font-serif);font-size:0.85rem;line-height:2;color:#666;">
+      <h2 style="font-family:var(--font-serif);font-size:1.1rem;font-weight:400;color:#111;margin-bottom:0.5rem;">Our Policies</h2>
+      <p style="margin-bottom:1.5rem;">Please note that by booking Axcer Studio, you acknowledge and agree to the following terms and conditions. We encourage all guests to carefully review these policies before their scheduled session.</p>
+
+      <h2 style="font-family:var(--font-serif);font-size:1.1rem;font-weight:400;color:#111;margin-bottom:0.5rem;">Cancellations &amp; Overtime</h2>
+      <p style="margin-bottom:1.5rem;">Please note that by reserving Axcer Studio, you are committing to the time selected at checkout. We encourage all guests to carefully review their booking details prior to confirming their reservation. Cancellation or rescheduling requests must be submitted at least 24 hours prior to the scheduled booking start time. If written notice of cancellation or rescheduling is received less than 24 hours before the booking start time, the renter shall remain responsible for 100% of the total booking amount and no refund or credit will be issued. Rental time includes setup, production, breakdown, cleanup, and departure. Guests are expected to vacate the studio by the end of their reserved booking time. Overtime includes any use of the studio outside of the scheduled reservation period. Additional time will be billed at the studio's current hourly rate and charged to the payment method on file. Booking times may not be shortened, refunded, or credited after a reservation has begun.</p>
+
+      <h2 style="font-family:var(--font-serif);font-size:1.1rem;font-weight:400;color:#111;margin-bottom:0.5rem;">Studio Cleanliness &amp; Damages</h2>
+      <p style="margin-bottom:1.5rem;">Guests are expected to leave Axcer Studio in the same condition in which it was found upon arrival. All furniture, décor, props, equipment, and studio furnishings should be returned to their original locations. Axcer Studio contains designer furniture and carefully curated studio pieces. If you need to move any furniture or large items, please contact the host for approval prior to doing so. Damage fees may include a minimum charge of $200. Excessive trash, spills, stains, or floor marks may result in a cleaning fee of $100 or more.</p>
+
+      <h2 style="font-family:var(--font-serif);font-size:1.1rem;font-weight:400;color:#111;margin-bottom:0.5rem;">Furniture &amp; Studio Usage</h2>
+      <p style="margin-bottom:1.5rem;">Please do not drag furniture across the floors. If furniture needs to be relocated, it should be lifted and handled carefully. Any special requests involving furniture rearrangement, large production setups, or installation of sets should be discussed with the host prior to your booking.</p>
+
+      <h2 style="font-family:var(--font-serif);font-size:1.1rem;font-weight:400;color:#111;margin-bottom:0.5rem;">White Floor &amp; Cyc Wall Policy</h2>
+      <p style="margin-bottom:1.5rem;">The white floors and cyc wall are signature features of Axcer Studio. Heavy items should be lifted rather than dragged across the floor. The curved transition areas of the cyc wall are particularly delicate and can be damaged easily. Guests should avoid stepping, sitting, placing equipment, or applying pressure directly on the curved corners. The cyc wall should not be climbed on or used as a support surface for equipment, furniture, or props. Excessive damage may result in cleaning, repair, or repainting fees.</p>
+
+      <h2 style="font-family:var(--font-serif);font-size:1.1rem;font-weight:400;color:#111;margin-bottom:0.5rem;">Personal Items &amp; Set Materials</h2>
+      <p style="margin-bottom:1.5rem;">All equipment, props, sets, wardrobe items, decorations, and personal belongings brought into the studio must be removed before the end of the booking. Any request to leave items inside the studio after your rental period must be approved in writing.</p>
+
+      <h2 style="font-family:var(--font-serif);font-size:1.1rem;font-weight:400;color:#111;margin-bottom:0.5rem;">Building Access &amp; Staircase Notice</h2>
+      <p style="margin-bottom:1.5rem;">Axcer Studio is located on the 4th floor of a historic industrial warehouse building in East Downtown Houston. There is no elevator access. The studio is accessible exclusively by a spiral staircase. Due to the age and historic nature of the building, indoor temperatures may occasionally fluctuate with outdoor conditions. Guests acknowledge and accept the unique characteristics associated with a historic industrial building.</p>
+
+      <h2 style="font-family:var(--font-serif);font-size:1.1rem;font-weight:400;color:#111;margin-bottom:0.5rem;">Safety &amp; Liability</h2>
+      <p style="margin-bottom:1.5rem;">Guests are responsible for the safety and conduct of all members of their party. Axcer Studio shall not be held liable for injuries, accidents, theft, loss of personal property, or damages incurred during a rental session.</p>
+
+      <h2 style="font-family:var(--font-serif);font-size:1.1rem;font-weight:400;color:#111;margin-bottom:0.5rem;">Privacy Policy</h2>
+      <p style="margin-bottom:1.5rem;">Axcer Studio utilizes a door camera positioned at the studio entrance. The camera records only arrivals and departures from the studio and is not intended to monitor activities within the studio space itself. Footage is reviewed only when necessary to investigate security concerns, property damage, policy violations, or booking disputes.</p>
+
+      <h2 style="font-family:var(--font-serif);font-size:1.1rem;font-weight:400;color:#111;margin-bottom:0.5rem;">Agreement</h2>
+      <p>By booking, entering, or using Axcer Studio, guests acknowledge that they have read, understood, and agreed to all policies, terms, and conditions outlined above.</p>
+    </div>
+  </div>
+  <div style="border-top:0.5px solid var(--border);padding:1.2rem 3rem;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--off);gap:0.6rem;text-align:center;">
+    <p style="font-family:var(--font-sans);font-size:0.58rem;letter-spacing:0.24em;text-transform:uppercase;color:var(--muted);">Join for updates — New availability, studio news and exclusive offers</p>
+    <div style="display:flex;gap:0;border:0.5px solid var(--border);">
+      <label for="newsletter-email-4" class="sr-only">Email address</label>
+      <input type="email" id="newsletter-email-4" placeholder="your@email.com" style="border:none;padding:0.55rem 0.9rem;font-size:0.75rem;font-family:var(--font-sans);color:#555;background:#fff;outline:none;width:220px;">
+      <button onclick="subscribeNewsletter(this,'newsletter-email-4')" style="padding:0.55rem 1rem;background:var(--black);color:#fff;font-family:var(--font-serif);font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;border:none;cursor:pointer;white-space:nowrap;">Subscribe</button>
+    </div>
+  </div>
+  <footer>
+    <span class="footer-logo">Axcer Studio</span>
+    <div class="footer-links"><a href="#home" onclick="showPage('home');return false;">Home</a><a href="#gallery" onclick="showPage('gallery');return false;">Gallery</a><a href="#book" onclick="showPage('book');return false;">Book</a></div>
+    <span class="footer-copy">© 2025 Axcer Studio · Downtown Houston, TX</span>
+  </footer>
+</div>
+
+<!-- ABOUT PAGE -->
+<div class="page" id="page-about">
+  <div style="padding:4rem 3rem;text-align:center;border-bottom:0.5px solid var(--border);">
+    <p class="eyebrow">About the Space</p>
+    <h1 class="c-about-title" style="margin:0 auto 1rem;">A. <em>Studio</em></h1>
+    <p class="c-about-desc" style="max-width:560px;margin:0 auto 1.2rem;">Axcer Studio is a creative photography studio located in the heart of East Downtown Houston. Housed in a 100-year-old warehouse, the space features raw exposed brick, flooded natural light, and a seamless white cyc wall.</p>
+    <p class="c-about-desc" style="max-width:560px;margin:0 auto 1.2rem;">Founded by Axcer, a photographer and creative director with a passion for helping artists bring their visions to life. The studio was designed to give creators a world-class space without the world-class price tag.</p>
+    <p class="c-about-desc" style="max-width:560px;margin:0 auto 1.2rem;">Whether you're shooting a fashion editorial, a brand campaign, or hosting a private event — Axcer Studio is your space.</p>
+    <button class="btn-dark" onclick="showPage('book')">Book Now</button>
+  </div>
+
+  <div class="reviews-section">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:1.5rem;max-width:350px;">
+      <h2 class="reviews-title" style="margin-bottom:0;">Guest <em>Reviews</em></h2>
+      <a href="https://www.peerspace.com/pages/listings/68c5ce4da9b09049ed161c70" target="_blank" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+        <span style="color:var(--black);font-size:1rem;letter-spacing:3px;">★★★★★</span>
+        <span style="font-family:'Arial Hebrew';font-weight:300;color:#111;display:flex;flex-direction:column;line-height:1.2;">
+          <span style="font-size:1.1rem;">4.9</span>
+          <span style="font-size:0.7rem;padding-left:0.5rem;">(40) reviews</span>
+        </span>
+      </a>
+    </div>
+    <a href="https://www.peerspace.com/pages/listings/68c5ce4da9b09049ed161c70" target="_blank" class="reviews-more-link">
+      <span>Click here to see more reviews</span>
+      <span style="font-size:0.9rem;">→</span>
+    </a>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"First thing I must say is that the Host was GREAT and VERY welcoming. He was helpful from the directions to helping me get set up and settled before he left! The place definitely was a vibe and had the aesthetics that you would want! I will definitely be booking again in the future."</p>
+        <div class="review-author">Troy T.</div>
+        <div class="review-date">May 14, 2026</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"The space was great! It was more spacious than I expected. Everything was very clean and looked to be well cared for. Axcer, the host, was very communicative and accommodating. Would recommend to anyone needing to use this type of space."</p>
+        <div class="review-author">Ruben E.</div>
+        <div class="review-date">January 17, 2026</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"I loved the space, excellent lighting and a well-equipped setup, including provided lights, which was a huge plus! The owner was responsive and timely in communication, offering great service throughout the booking process. I would definitely recommend this space!"</p>
+        <div class="review-author">Marina E.</div>
+        <div class="review-date">January 17, 2026</div>
+      </div>
+    </div>
+  </div>
+  <div style="border-top:0.5px solid var(--border);padding:1.2rem 3rem;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--off);gap:0.6rem;text-align:center;">
+    <p style="font-family:var(--font-sans);font-size:0.58rem;letter-spacing:0.24em;text-transform:uppercase;color:var(--muted);">Join for updates — New availability, studio news and exclusive offers</p>
+    <div style="display:flex;gap:0;border:0.5px solid var(--border);">
+      <label for="newsletter-email-5" class="sr-only">Email address</label>
+      <input type="email" id="newsletter-email-5" placeholder="your@email.com" style="border:none;padding:0.55rem 0.9rem;font-size:0.75rem;font-family:var(--font-sans);color:#555;background:#fff;outline:none;width:220px;">
+      <button onclick="subscribeNewsletter(this,'newsletter-email-5')" style="padding:0.55rem 1rem;background:var(--black);color:#fff;font-family:var(--font-serif);font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;border:none;cursor:pointer;white-space:nowrap;">Subscribe</button>
+    </div>
+  </div>
+  <footer>
+    <span class="footer-logo">Axcer Studio</span>
+    <div class="footer-links"><a href="#home" onclick="showPage('home');return false;">Home</a><a href="#gallery" onclick="showPage('gallery');return false;">Gallery</a><a href="#book" onclick="showPage('book');return false;">Book</a></div>
+    <span class="footer-copy">© 2025 Axcer Studio · Downtown Houston, TX</span>
+  </footer>
+</div>
+
+<!-- CALENDAR MODAL -->
+<div class="cal-overlay" id="calOverlay" style="display:none;"></div>
+<script src="https://embed.acuityscheduling.com/js/embed.js" type="text/javascript"></script>
+
+<!-- CONFIRM MODAL -->
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <div class="modal-check">✓</div>
+    <h3>Booking Confirmed</h3>
+    <p>Your reservation is confirmed and payment processed. A confirmation email is on its way.</p>
+    <p style="margin-top:0.5rem">We look forward to seeing you at the studio.</p><br>
+    <button class="btn-dark" onclick="closeModal()">Back to Home</button>
+  </div>
+</div>
+
+<!-- GALLERY LIGHTBOX -->
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="if(event.target===this) closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close image viewer">×</button>
+  <button class="lightbox-arrow lightbox-prev lightbox-arrow-desktop" onclick="event.stopPropagation();lightboxNav(-1)" aria-label="Previous photo">←</button>
+  <img id="lightboxImg" src="" alt="">
+  <button class="lightbox-arrow lightbox-next lightbox-arrow-desktop" onclick="event.stopPropagation();lightboxNav(1)" aria-label="Next photo">→</button>
+  <div class="lightbox-dots" id="lightboxDots">
+    <div class="hero-dot" role="button" tabindex="0" aria-label="Go to photo 1" onclick="event.stopPropagation();openLightbox(0)"></div>
+    <div class="hero-dot" role="button" tabindex="0" aria-label="Go to photo 2" onclick="event.stopPropagation();openLightbox(1)"></div>
+    <div class="hero-dot" role="button" tabindex="0" aria-label="Go to photo 3" onclick="event.stopPropagation();openLightbox(2)"></div>
+    <div class="hero-dot" role="button" tabindex="0" aria-label="Go to photo 4" onclick="event.stopPropagation();openLightbox(3)"></div>
+    <div class="hero-dot" role="button" tabindex="0" aria-label="Go to photo 5" onclick="event.stopPropagation();openLightbox(4)"></div>
+    <div class="hero-dot" role="button" tabindex="0" aria-label="Go to photo 6" onclick="event.stopPropagation();openLightbox(5)"></div>
+    <div class="hero-dot" role="button" tabindex="0" aria-label="Go to photo 7" onclick="event.stopPropagation();openLightbox(6)"></div>
+    <div class="hero-dot" role="button" tabindex="0" aria-label="Go to photo 8" onclick="event.stopPropagation();openLightbox(7)"></div>
+    <div class="hero-dot" role="button" tabindex="0" aria-label="Go to photo 9" onclick="event.stopPropagation();openLightbox(8)"></div>
+  </div>
+</div>
+
+<script>
+window.addEventListener('scroll', function(){
+  const nav=document.querySelector('nav');
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  if(isMobile){ nav.classList.remove('hidden'); return; }
+  if(window.scrollY>60){nav.classList.add('hidden');}
+  else{nav.classList.remove('hidden');}
+});
+
+function openMenu(){
+  const menu = document.getElementById('mobileMenu');
+  document.getElementById('hamburgerBtn').classList.add('open');
+  document.querySelector('nav').classList.remove('hidden');
+  menu.setAttribute('aria-hidden','false');
+  menu.classList.add('animate-in');
+  menu.classList.add('show');
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      menu.classList.add('bg-open');
+      setTimeout(function(){ menu.classList.add('text-open'); }, 120);
+    });
+  });
+}
+function closeMenu(){
+  const menu = document.getElementById('mobileMenu');
+  if(menu.classList.contains('animate-in')){
+    menu.classList.remove('text-open');
+    setTimeout(function(){
+      menu.classList.remove('bg-open');
+      setTimeout(function(){
+        menu.classList.remove('show');
+        menu.classList.remove('animate-in');
+      }, 500);
+    }, 80);
+  } else {
+    menu.classList.remove('show');
+  }
+  menu.setAttribute('aria-hidden','true');
+  document.getElementById('hamburgerBtn').classList.remove('open');
+}
+function toggleMenu(){const m=document.getElementById('mobileMenu');if(m.classList.contains('show')){closeMenu();}else{openMenu();}}
+
+// Navigate from the menu without the grey flash: switch the page FIRST
+// (hidden behind the still-opaque menu), then fade the menu away to reveal
+// the new page already in place.
+function navFromMenu(id){
+  showPage(id);
+  closeMenu();
+  return false;
+}
+const lightboxImages = [
+  '8AB1518F-FD07-45F8-B3C7-FA698D02B5B2.PNG',
+  'mobileimage2.JPG',
+  '6B970578-F235-4641-80F6-F80AA977569B.PNG',
+  'gallery-studio-wide.jpg',
+  '38D1A3AD-FF06-426A-8B02-6327A343BE6E.PNG',
+  '57A370EC-5860-483C-B008-93CD6674F511.PNG',
+  '70E2BF88-2261-46A1-8F55-2080E0EEFCD3.JPG',
+  '76075E32-E15D-4ABB-91E6-300288EEEE87.PNG',
+  '860460D8-33AF-41A4-BF54-273615289348.PNG',
+  'B67E7C3C-5563-44C6-8856-76F941A092B8.JPG'
+];
+const lightboxAlts = [
+  'Axcer Studio open loft space with high ceilings',
+  'Axcer Studio photography space with brick wall and large window',
+  'Axcer Studio seating area with leather sofa and rug',
+  'Wide view of Axcer Studio with white cyc wall, lighting setup, and lounge seating',
+  'Axcer Studio interior with seating area and natural light',
+  'Corner of Axcer Studio with chair and side table near window',
+  'Glass table and decor in Axcer Studio',
+  'Wide view of Axcer Studio with lighting equipment set up',
+  'Axcer Studio cyc wall with studio lighting setup',
+  'Seating and side tables along the wall at Axcer Studio'
+];
+let lightboxIndex = 0;
+function updateLightboxDots(){
+  document.querySelectorAll('#lightboxDots .hero-dot').forEach((d,idx) => d.classList.toggle('active-dot', idx === lightboxIndex));
+}
+function openLightbox(i){
+  lightboxIndex = i;
+  document.getElementById('lightboxImg').src = lightboxImages[lightboxIndex];
+  document.getElementById('lightboxImg').alt = lightboxAlts[lightboxIndex];
+  document.getElementById('lightboxOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  updateLightboxDots();
+}
+function closeLightbox(){
+  document.getElementById('lightboxOverlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+function lightboxNav(dir){
+  lightboxIndex = (lightboxIndex + dir + lightboxImages.length) % lightboxImages.length;
+  document.getElementById('lightboxImg').src = lightboxImages[lightboxIndex];
+  document.getElementById('lightboxImg').alt = lightboxAlts[lightboxIndex];
+  updateLightboxDots();
+}
+// Swipe support for lightbox
+(function(){
+  const lb = document.getElementById('lightboxOverlay');
+  let startX = 0, wasMultiTouch = false;
+  function start(e){ startX = e.touches[0].clientX; wasMultiTouch = e.touches.length > 1; }
+  function trackMove(e){ if(e.touches.length > 1) wasMultiTouch = true; }
+  function end(e){
+    if(wasMultiTouch){ wasMultiTouch = false; return; }
+    const diff = e.changedTouches[0].clientX - startX;
+    if (Math.abs(diff) > 40) {
+      lightboxNav(diff < 0 ? 1 : -1);
+    }
+  }
+  lb.addEventListener('touchstart', start, {passive:true});
+  lb.addEventListener('touchmove', trackMove, {passive:true});
+  lb.addEventListener('touchend', end, {passive:true});
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('show')) return;
+    if (e.key === 'ArrowRight') lightboxNav(1);
+    if (e.key === 'ArrowLeft') lightboxNav(-1);
+    if (e.key === 'Escape') closeLightbox();
+  });
+})();
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  const pg=document.getElementById('page-'+id);
+  if(!pg) return;
+  pg.classList.add('active');
+  const navLink=document.getElementById('nav-'+id);
+  if(navLink) navLink.classList.add('active');
+  window.scrollTo(0,0);
+  const isSchedule = id === 'schedule';
+  document.querySelector('nav').classList.toggle('hidden', isSchedule);
+  document.getElementById('hamburgerBtn').style.display = isSchedule ? 'none' : '';
+  document.body.classList.toggle('home-active', id==='home');
+  if(id==='book') preloadAcuity();
+}
+
+// Quietly preload Acuity's scheduler in the background the first time
+// someone visits the Book page, so the popup feels instant when clicked.
+let acuityPreloaded = false;
+function preloadAcuity(){
+  if(acuityPreloaded) return;
+  acuityPreloaded = true;
+  const defaultUrl = acuityTypes['1 hour session'] || acuityBase;
+  document.getElementById('acuityFrame').src = defaultUrl;
+  acuityLoadedSession = '1 hour session';
+}
+let calYear=new Date().getFullYear(),calMonth=new Date().getMonth(),selDate=null,selTime=null;
+let curSession='',curPrice='',curBase=0,curHrs=1;
+const bookedDays={[calMonth+'-'+calYear]:[4,8,11,16,19,23,27]};
+const allTimes=['8:00 AM','9:00 AM','10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM','3:00 PM','4:00 PM','5:00 PM','6:00 PM','7:00 PM','8:00 PM','9:00 PM','10:00 PM'];
+const unavailTimes=['9:00 AM','1:00 PM','4:00 PM'];
+const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+const acuityBase = 'https://app.acuityscheduling.com/schedule.php?owner=39615813&ref=embedded_csp';
+const acuityTypes = {
+  '1 hour session': acuityBase + '&appointmentType=94676906',
+  '1.5 hour session': acuityBase + '&appointmentType=94752643',
+  '2 hour session': acuityBase + '&appointmentType=94676917',
+  '2.5 hour session': acuityBase + '&appointmentType=94752679',
+  '3 hour session': acuityBase + '&appointmentType=94676934',
+  '3.5 hour session': acuityBase + '&appointmentType=94752693',
+  '4 hour session': acuityBase + '&appointmentType=94676953',
+  '4.5 hour session': acuityBase + '&appointmentType=94752700',
+  '5 hour session': acuityBase + '&appointmentType=94676966',
+  '5.5 hour session': acuityBase + '&appointmentType=94752715',
+  '6 hour session': acuityBase + '&appointmentType=94676980'
+};
+let acuityLoadedSession = null;
+function openCal(s,p,base,hrs){
+  curSession=s;curPrice=p;curBase=base;curHrs=hrs;
+  document.getElementById('schedTitle').textContent = s;
+  document.getElementById('schedSub').textContent = p + ' · select date & time';
+  document.getElementById('acuityLoadingOverlay').style.display = 'flex';
+  const url = acuityTypes[s] || acuityBase;
+  document.getElementById('acuityFrame').src = url;
+  acuityLoadedSession = s;
+  showPage('schedule');
+  window.scrollTo(0,0);
+}
+function onAcuityFrameLoad(){
+  document.getElementById('acuityLoadingOverlay').style.display = 'none';
+}
+document.getElementById('acuityFrame').addEventListener('load', onAcuityFrameLoad);
+function closeCal(){
+  showPage('book');
+}
+// With a fixed-height iframe we can't measure step changes from outside,
+// so we rely on Acuity's postMessages. To avoid the "yanked to top while
+// typing" problem, we use a cooldown: after one scroll we ignore further
+// messages for a moment, and we only scroll if the user has actually
+// scrolled down meaningfully (so minor field events near the top do
+// nothing).
+let acuityScrollCooldown = false;
+window.addEventListener('message', function(e){
+  const sched = document.getElementById('page-schedule');
+  if(!sched || !sched.classList.contains('active')) return;
+  // Only react to messages that look like they came from Acuity.
+  const isAcuityMsg = (typeof e.data === 'string' && e.data.indexOf('acuity') !== -1) ||
+                      (e.origin && e.origin.indexOf('acuity') !== -1);
+  if(!isAcuityMsg) return;
+  if(acuityScrollCooldown) return;
+
+  const schedTop = sched.getBoundingClientRect().top + window.pageYOffset;
+  // Only scroll up if we're currently well below the top of the scheduler
+  // (i.e. a step change likely left us stranded down the page). If we're
+  // already near the top, do nothing — this prevents mid-form yanking.
+  if(window.pageYOffset - schedTop > 400){
+    acuityScrollCooldown = true;
+    window.scrollTo({ top: schedTop, behavior: 'smooth' });
+    setTimeout(function(){ acuityScrollCooldown = false; }, 1200);
+  }
+});
+
+function renderCalendar(){
+  document.getElementById('calMonthLabel').textContent=months[calMonth]+' '+calYear;
+  const grid=document.getElementById('calGrid');grid.innerHTML='';
+  ['Su','Mo','Tu','We','Th','Fr','Sa'].forEach(d=>{const e=document.createElement('div');e.className='cal-dow';e.textContent=d;grid.appendChild(e);});
+  const fd=new Date(calYear,calMonth,1).getDay(),days=new Date(calYear,calMonth+1,0).getDate(),today=new Date(),bk=bookedDays[calMonth+'-'+calYear]||[];
+  for(let i=0;i<fd;i++)grid.appendChild(document.createElement('div'));
+  for(let d=1;d<=days;d++){const e=document.createElement('div');e.className='cal-day';e.textContent=d;const past=new Date(calYear,calMonth,d)<new Date(today.getFullYear(),today.getMonth(),today.getDate());if(past)e.classList.add('past');else if(bk.includes(d))e.classList.add('booked');else e.addEventListener('click',()=>pickDate(d));if(d===today.getDate()&&calMonth===today.getMonth()&&calYear===today.getFullYear())e.classList.add('today');if(selDate===d)e.classList.add('selected');grid.appendChild(e);}
+}
+
+function pickDate(d){selDate=d;selTime=null;renderCalendar();document.getElementById('calTimesLbl').textContent='Available times · '+months[calMonth]+' '+d;document.getElementById('calTimes').style.display='block';const tg=document.getElementById('calTimesGrid');tg.innerHTML='';allTimes.forEach(t=>{const e=document.createElement('div');e.className='cal-time'+(unavailTimes.includes(t)?' unavail':'');e.textContent=t;if(!unavailTimes.includes(t))e.addEventListener('click',()=>pickTime(t,e));tg.appendChild(e);});document.getElementById('calInfo').textContent='Now pick a time';}
+
+function pickTime(t,el){selTime=t;document.querySelectorAll('.cal-time').forEach(x=>x.classList.remove('sel-time'));el.classList.add('sel-time');document.getElementById('calInfo').innerHTML='<strong>'+months[calMonth]+' '+selDate+' · '+t+'</strong>';}
+
+function prevMonth(){calMonth--;if(calMonth<0){calMonth=11;calYear--;}selDate=null;selTime=null;document.getElementById('calTimes').style.display='none';renderCalendar();}
+function nextMonth(){calMonth++;if(calMonth>11){calMonth=0;calYear++;}selDate=null;selTime=null;document.getElementById('calTimes').style.display='none';renderCalendar();}
+function closeModal(){document.getElementById('modal').classList.remove('show');showPage('home');}
+
+
+document.body.classList.add('home-active');
+
+const isMobileHero = window.matchMedia('(max-width: 768px)').matches;
+const heroSlideEls = document.querySelectorAll(isMobileHero ? '.hero-slide-mobile' : '.hero-slide-desktop');
+const heroSlideElsOther = document.querySelectorAll(isMobileHero ? '.hero-slide-desktop' : '.hero-slide-mobile');
+heroSlideElsOther.forEach(el => el.style.display = 'none');
+const heroDotEls = document.querySelectorAll(isMobileHero ? '.hero-dot-mobile' : '.hero-dot-desktop');
+const heroDotElsOther = document.querySelectorAll(isMobileHero ? '.hero-dot-desktop' : '.hero-dot-mobile');
+heroDotElsOther.forEach(el => el.style.display = 'none');
+
+let heroIndex = 0;
+const heroTotal = heroSlideEls.length;
+const heroSlideWidthPct = 100 / heroTotal;
+document.getElementById('heroSlides').style.width = (heroTotal * 100) + '%';
+heroSlideEls.forEach(el => el.style.width = heroSlideWidthPct + '%');
+
+function slideHero(dir) {
+  heroIndex = (heroIndex + dir + heroTotal) % heroTotal;
+  goToSlide(heroIndex);
+}
+function goToSlide(i) {
+  heroIndex = i;
+  document.getElementById('heroSlides').style.transform = 'translateX(-' + (i * heroSlideWidthPct) + '%)';
+  heroDotEls.forEach((d,idx) => d.classList.toggle('active-dot', idx === i));
+}
+// Auto advance every 5 seconds
+let heroAutoplay = setInterval(() => slideHero(1), 5000);
+
+// Swipe + drag support for the hero slider
+(function(){
+  const slider = document.getElementById('heroSlider');
+  let startX = 0, startY = 0, isDown = false, lockHorizontal = false;
+  function restartAutoplay(){ clearInterval(heroAutoplay); heroAutoplay = setInterval(() => slideHero(1), 5000); }
+  function start(x,y){ isDown = true; startX = x; startY = y; lockHorizontal = false; }
+  function move(x,y,e){
+    if(!isDown) return;
+    const dx = x - startX, dy = y - startY;
+    if(!lockHorizontal && Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 8){
+      lockHorizontal = true;
+    }
+    if(lockHorizontal && e.cancelable) e.preventDefault();
+  }
+  function end(x){
+    if(!isDown) return;
+    isDown = false;
+    const diff = x - startX;
+    if(diff > 50) slideHero(-1);
+    else if(diff < -50) slideHero(1);
+    restartAutoplay();
+  }
+  slider.addEventListener('touchstart', e => start(e.touches[0].clientX, e.touches[0].clientY), {passive:true});
+  slider.addEventListener('touchmove', e => move(e.touches[0].clientX, e.touches[0].clientY, e), {passive:false});
+  slider.addEventListener('touchend', e => end(e.changedTouches[0].clientX), {passive:true});
+  slider.addEventListener('mousedown', e => start(e.clientX, e.clientY));
+  slider.addEventListener('mouseup', e => end(e.clientX));
+  slider.style.cursor = 'grab';
+})();
+
+// ADA: allow Enter/Space to activate any element with role="button"
+document.addEventListener('keydown', function(e){
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
+    e.preventDefault();
+    e.target.click();
+  }
+});
+
+// Contact form — submits to Formspree via fetch so the page never
+// reloads. Swap in the real Formspree endpoint once the form is created.
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xeebjvyr';
+
+function submitContactForm(btn){
+  const name = document.getElementById('contactName').value.trim();
+  const email = document.getElementById('contactEmail').value.trim();
+  const subject = document.getElementById('contactSubject').value;
+  const message = document.getElementById('contactMessage').value.trim();
+  if(!name || !email || !message){
+    alert('Please fill in your name, email and message.');
+    return;
+  }
+  const originalText = btn.textContent;
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+  fetch(FORMSPREE_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, email, subject, message })
+  })
+  .then(res => {
+    if(!res.ok) throw new Error('Submission failed');
+    btn.textContent = 'Message sent ✓';
+    document.getElementById('contactName').value = '';
+    document.getElementById('contactEmail').value = '';
+    document.getElementById('contactMessage').value = '';
+  })
+  .catch(() => { btn.textContent = 'Something went wrong — try again'; })
+  .finally(() => {
+    setTimeout(() => { btn.textContent = originalText; btn.disabled = false; }, 3000);
+  });
+}
+
+// Newsletter signup — submits to our own Resend-backed Netlify Function,
+// which adds the subscriber to the Resend audience and sends the welcome email.
+const BACKEND_URL = 'https://admirable-alpaca-3afd23.netlify.app';
+
+function subscribeNewsletter(btn, inputId){
+  const input = document.getElementById(inputId);
+  const email = input.value.trim();
+  if(!email || !email.includes('@')){
+    input.style.outline = '1px solid #c0392b';
+    return;
+  }
+  input.style.outline = 'none';
+  const originalText = btn.textContent;
+  btn.textContent = '···';
+  btn.disabled = true;
+  fetch(BACKEND_URL + '/.netlify/functions/newsletter-signup', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email })
+  })
+  .then(res => {
+    if(!res.ok) throw new Error('Signup failed');
+    btn.textContent = 'Subscribed ✓';
+    input.value = '';
+  })
+  .catch(() => { btn.textContent = 'Try again'; })
+  .finally(() => {
+    setTimeout(() => { btn.textContent = originalText; btn.disabled = false; }, 3000);
+  });
+}
+
+// Track intent when leaving for Instagram, then instantly restore the
+// exact page/menu state on return — no reload. (Earlier we used a forced
+// reload here to guard against iOS Safari occasionally restoring a stale
+// snapshot, but that added a visible flash on return; this instant
+// version is what's actually wanted, with that tradeoff accepted.)
+let leftForInstagram = false;
+function leaveForInstagram(){
+  leftForInstagram = true;
+  const activePage = document.querySelector('.page.active');
+  sessionStorage.setItem('returnPage', activePage ? activePage.id : 'page-home');
+  sessionStorage.setItem('returnMenuOpen', document.getElementById('mobileMenu').classList.contains('show') ? '1' : '0');
+  window.open('https://www.instagram.com/axcer.studio', '_blank', 'noopener');
+}
+function returnFromInstagram(){
+  if(leftForInstagram){
+    leftForInstagram = false;
+    const returnPage = sessionStorage.getItem('returnPage');
+    if(returnPage){
+      sessionStorage.removeItem('returnPage');
+      const menuWasOpen = sessionStorage.getItem('returnMenuOpen') === '1';
+      sessionStorage.removeItem('returnMenuOpen');
+      showPage(returnPage.replace('page-', ''));
+      if(menuWasOpen) openMenu();
+    }
+  }
+}
+window.addEventListener('pageshow', returnFromInstagram);
+window.addEventListener('focus', returnFromInstagram);
+document.addEventListener('visibilitychange', function(){
+  if(document.visibilityState === 'visible') returnFromInstagram();
+});
+
+// Warm up the Acuity calendar in the background a moment after the page
+// settles, so it's more likely to be ready when the user opens booking.
+// Delayed slightly so it doesn't compete with the initial page render.
+window.addEventListener('load', function(){
+  setTimeout(function(){ if(typeof preloadAcuity === 'function') preloadAcuity(); }, 1200);
+});
+
+</script>
+</body>
+</html>
